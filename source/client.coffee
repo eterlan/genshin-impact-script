@@ -19,10 +19,31 @@ class Client extends KeyBinding
   constructor: ->
     super()
 
+<<<<<<< HEAD
+=======
+    $.setInterval @tick, 100
+
+    @on 'pause', =>
+      `Menu, Tray, Icon, off.ico`
+      @setPriority 'low'
+      @suspend true
+
+    @on 'resume', =>
+      `Menu, Tray, Icon, on.ico`
+      @setPriority 'normal'
+      @suspend false
+      @delay 1e3, @setSize
+
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
     `Menu, Tray, Icon, on.ico,, 1`
 
+<<<<<<< HEAD
     unless $.isExisted Config.get 'basic/process'
       if Config.get 'basic/path' then $.open Config.get 'basic/path'
+=======
+    @setSize()
+    @delay 1e3, @report
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     $.wait (Config.get 'basic/process'), @init
 
@@ -31,21 +52,67 @@ class Client extends KeyBinding
     name = 'ahk_class Shell_TrayWnd'
     `WinActivate, % name`
 
+<<<<<<< HEAD
   # checkIsActive(): boolean
   checkIsActive: -> return $.isActive Config.get 'basic/process'
+=======
+    $.on 'alt + enter', =>
+      $.press 'alt + enter'
+      @delay 1e3, @setSize
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
   # checkMousePosition(): boolean
   checkMousePosition: ->
 
+<<<<<<< HEAD
     [x, y] = $.getPosition()
+=======
+  # delay(id?: string, time?: number, callback?: Fn): void
+  delay: (args...) -> # id, time, callback
+
+    if @isSuspend then return
+
+    len = $.length args
+    if len == 1 then [id, time, callback] = [args[0], 0, 0]
+    else if len == 2 then [id, time, callback] = ['', args[0], args[1]]
+    else [id, time, callback] = args
+
+    hasId = id and id != '~'
+
+    if hasId and timer[id] then $.clearTimeout timer[id]
+    unless time then return
+
+    delay = time
+    if id[0] == '~' then delay = delay * (1 + $.random() * 0.1) # 100% ~ 110%
+
+    result = $.setTimeout callback, delay
+    if hasId then timer[id] = result
+
+  # point(input: Position): Position
+  point: (input) -> return [
+      @vw input[0]
+      @vh input[1]
+    ]
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     if x < 0
       # $.move [0, y]
       return false
 
+<<<<<<< HEAD
     if x >= @width
       # $.move [@width - 1, y]
       return false
+=======
+  # reset(): void
+  reset: ->
+    @setPriority 'normal'
+    @resetTimer()
+
+  # resetTimer(): void
+  resetTimer: -> for _timer of timer
+    $.clearTimeout _timer
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     if y < 0
       # $.move [x, 0]

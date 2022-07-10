@@ -95,8 +95,13 @@ on-long-press = a, 100, a, tt
 [ganyu]
 on-long-press = a~, a
 
+<<<<<<< HEAD
 [hu tao]
 on-long-press = !@e, a, e, @e, 300; a~, j, 100
+=======
+[hu_tao]
+on-long-press = !@e, a, e, @e, 300; a~, j, 50
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
 [kamisato ayaka]
 on-long-press = !@e?, a, 100, a, 150, a, 280, a, a~, 500, s, 400; a, e

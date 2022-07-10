@@ -1,4 +1,10 @@
+<<<<<<< HEAD:source/color-manager.coffee
 class ColorManager
+=======
+class ColorPickerX
+
+  tsLast: 0
+>>>>>>> parent of e64cb9c (updated to v0.0.29):source/color-picker.coffee
 
   constructor: ->
 
@@ -7,6 +13,7 @@ class ColorManager
         Sound.beep()
         @pick()
 
+<<<<<<< HEAD:source/color-manager.coffee
   # find(color: number, start: Point, end: Point): Point
   find: Gdip.findColor
 
@@ -17,6 +24,8 @@ class ColorManager
   get: Gdip.getColor
 
   # pick(): void
+=======
+>>>>>>> parent of e64cb9c (updated to v0.0.29):source/color-picker.coffee
   pick: ->
 
     color = @format @get()
@@ -29,4 +38,8 @@ class ColorManager
     ClipBoard = color
 
 # export
+<<<<<<< HEAD:source/color-manager.coffee
 ColorManager = new ColorManager()
+=======
+ColorPicker = new ColorPickerX()
+>>>>>>> parent of e64cb9c (updated to v0.0.29):source/color-picker.coffee

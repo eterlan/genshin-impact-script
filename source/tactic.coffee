@@ -113,12 +113,19 @@ class Tactic
     $.click 'left'
     @delay 200, callback
 
+<<<<<<< HEAD
   # doJump(callback: Fn): void
   doJump: (callback) ->
     Movement.jump()
     unless Movement.isMoving
       @delay 450, callback
     else @delay 550, callback
+=======
+  # delay(time: number, callback: Fn): void
+  delay: (time, callback) ->
+    unless @isActive then return
+    Client.delay '~tactic', time, callback
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
   # doSprint(callback: Fn): void
   doSprint: (callback) ->
@@ -217,8 +224,32 @@ class Tactic
 
     unless Scene.is 'normal' then return
 
+<<<<<<< HEAD
     list = @format list
     unless list then return
+=======
+    Client.delay '~tactic'
+
+    if @isPressed['l-button']
+      $.click 'left:up'
+
+    @isActive = false
+
+  # sprint(callback: Fn): void
+  sprint: (callback) ->
+    Movement.sprint()
+    @delay @intervalExecute, callback
+
+  # start(): void
+  start: ->
+
+    if @isActive then return
+
+    listTactic = @validate()
+    unless listTactic
+      $.click 'left:down'
+      return
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     @isActive = true
     $.click 'left:up'

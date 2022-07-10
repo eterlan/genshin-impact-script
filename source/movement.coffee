@@ -1,3 +1,7 @@
+# variable
+
+ts.jump = 0
+
 # function
 
 class Movement extends KeyBinding
@@ -5,7 +9,6 @@ class Movement extends KeyBinding
   isForwarding: false
   isMoving: false
   count: 0
-  tsJump: 0
 
   constructor: ->
     super()
@@ -32,29 +35,39 @@ class Movement extends KeyBinding
     @on 'move:end', => @isMoving = false
 
     # forward
-    $.on 'alt + w', => Timer.add 'forward', 100, @toggleForward
+    $.on 'alt + w', => Client.delay 'forward', 100, @toggleForward
     @on 'walk:start', @stopForward
 
     # jump
+<<<<<<< HEAD
     @registerEvent 'jump', 'space'
     @on 'jump:start', => @tsJump = $.now()
     @on 'jump:end', =>
+=======
+    @bindEvent 'jump', 'space', 'prevent'
+
+    @on 'jump:start', ->
+      $.press 'space:down'
+      ts.jump = $.now()
+
+    @on 'jump:end', ->
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
       now = $.now()
-      diff = now - @tsJump
-      @tsJump = now
+      diff = now - ts.jump
+      ts.jump = now
 
       unless (Config.get 'better-jump') and Scene.is 'normal' then return
       unless diff < 350 then return
 
-      Timer.add 'jump', 350 - diff, ->
+      Client.delay '~jump', 350 - diff, ->
         Movement.jump()
-        @tsJump = $.now()
+        ts.jump = $.now()
 
   # jump(): void
   jump: ->
     $.press 'space'
-    @tsJump = $.now()
+    ts.jump = $.now()
 
   # sprite(): void
   sprite: -> $.click 'right'

@@ -44,7 +44,14 @@ class Party extends EmitterShellX
       @tsSwitch = $.now()
 
       if nameOld == 'tartaglia' and nameNew != 'tartaglia'
+<<<<<<< HEAD
         Skill.endTartaglia()
+=======
+        SkillTimer.endTartaglia()
+
+      {audio} = Character.data[@name]
+      if audio then Client.delay 200, -> Sound.play audio
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     $.on 'f12', @scan
     $.on 'alt + f12', =>
@@ -59,12 +66,18 @@ class Party extends EmitterShellX
   # checkCurrent(n: Slot): boolean
   checkCurrent: (n) ->
     [start, end] = @makeRange n, 'narrow'
+<<<<<<< HEAD
     p = ColorManager.find 0x323232, start, end
     return !Point.isValid p
+=======
+    [x, y] = $.findColor 0x323232, start, end
+    return !(x * y > 0)
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
   # checkCurrentAs(n: Slot, callback: Fn): void
   checkCurrentAs: (n, callback) ->
 
+<<<<<<< HEAD
     delay = 100
     interval = 100
     limit = 500
@@ -79,6 +92,25 @@ class Party extends EmitterShellX
 
     tsCheck = $.now()
     Timer.add token, delay, => Timer.loop token, interval, =>
+=======
+    Client.delay 'party/check'
+    delay = 300
+
+    if Config.data.weakNetwork
+      Client.delay 'party/check', delay, callback
+      return
+
+    name = @listMember[n]
+    unless name
+      Client.delay 'party/check', delay, callback
+      return
+
+    Client.delay 'party/check', delay, =>
+      unless @checkCurrent n
+        Sound.beep()
+        return
+      if callback then callback()
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
       if @checkCurrent n
         Timer.remove token
@@ -128,12 +160,21 @@ class Party extends EmitterShellX
       if @has name then continue
       unless char.color then continue
 
+<<<<<<< HEAD
       for group in char.color
         count = 0
         for color in group
           unless Point.isValid ColorManager.find color, start, end then break
           count++
         if count >= 3 then return name
+=======
+      for color in char.color
+
+        [x, y] = $.findColor color, start, end
+        unless x * y > 0 then continue
+
+        return name
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     return ''
 
@@ -175,10 +216,14 @@ class Party extends EmitterShellX
   # scan(): void
   scan: ->
 
+<<<<<<< HEAD
     token = 'party/scan'
     Indicator.setCost token, 'start'
 
     unless Scene.is 'normal'
+=======
+    if Scene.name != 'normal' or Scene.isMulti
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
       Sound.beep()
       console.log "invalid scene: #{Scene.name}/#{Scene.subname}"
       return
@@ -215,9 +260,13 @@ class Party extends EmitterShellX
       $.press 1
       @switchTo 1
 
+<<<<<<< HEAD
     Indicator.setCost token, 'end'
     console.log "#{token}: completed in #{Indicator.getCost token} ms"
     Timer.add 200, => @isBusy = false
+=======
+    Client.delay 200, => @isBusy = false
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
   # switchTo(n: Slot): void
   switchTo: (n) ->

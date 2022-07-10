@@ -4,6 +4,9 @@ import '../../gis-static/lib/ShiftAppVolume.ahk'
 type Fn = () => unknown
 ###
 
+# variable
+timer.beep = 0
+
 # function
 class Sound
 
@@ -29,11 +32,12 @@ class Sound
       return
     @index = 1
 
-    Timer.loop 'sound/beep', 200, =>
+    $.clearInterval timer.beep
+    timer.beep = $.setInterval =>
       $.beep()
       @index++
       if @index >= n
-        Timer.remove 'sound/beep'
+        $.clearInterval timer.beep
         if callback then callback()
     , 200
 

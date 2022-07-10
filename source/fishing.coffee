@@ -35,8 +35,13 @@ class Fishing
 
   # findColor(color: string, start: Point, end: Point): Point | false
   findColor: (color, start, end) ->
+<<<<<<< HEAD
     p = ColorManager.find color, (Point.new start), Point.new end
     if Point.isValid p then return p
+=======
+    [x, y] = $.findColor color, start, end
+    if x * y > 0 then return [x, y]
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
     return false
 
   # next(): void
@@ -44,19 +49,19 @@ class Fishing
 
     @isPulling = false
 
-    Timer.add 'fishing', 2e3, =>
+    Client.delay '~fishing', 2e3, =>
       $.press 'l-button'
-      Timer.add 'fishing', 1e3, @start
+      Client.delay '~fishing', 1e3, @start
 
   # pull(): void
   pull: ->
     @isPulling = true
     $.press 'l-button:down'
-    Timer.add 50, -> $.press 'l-button:up'
+    Client.delay '~', 50, -> $.press 'l-button:up'
 
   # start(): void
   start: ->
-    Timer.add 'fishing/notice', 60e3, -> Sound.beep 3
+    Client.delay 'fishing/notice', 60e3, -> Sound.beep 3
     $.press 'l-button'
 
   # toggle(): void
@@ -64,14 +69,22 @@ class Fishing
 
     @isActive = !@isActive
 
-    Timer.remove 'fishing/watch'
-    Timer.remove 'fishing'
-    Timer.remove 'fishing/notice'
+    $.clearInterval timer.fishing
+    Client.delay '~fishing'
+    Client.delay 'fishing/notice'
 
     if @isActive
+<<<<<<< HEAD
       Scene.is 'fishing'
       Timer.loop 'fishing/watch', 100, @watch
       Hud.render 0, 'auto fish [ON]'
+=======
+      Scene.name = 'fishing'
+      timer.fishing = $.setInterval @watch, 100
+      msg = 'enter fishing mode'
+      if Config.data.region == 'cn' then msg = '开启钓鱼模式'
+      Hud.render 5, msg
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
     else
       Scene.is 'unknown'
       Hud.render 0, 'auto fish [OFF]'

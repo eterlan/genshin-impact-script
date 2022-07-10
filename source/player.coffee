@@ -14,7 +14,15 @@ class Player extends KeyBinding
     @aboutSwitch()
 
     # attack
+<<<<<<< HEAD
     @registerEvent 'attack', 'l-button'
+=======
+    @bindEvent 'attack', 'l-button', 'prevent'
+
+    # use skill
+    @bindEvent 'use-e', 'e'
+    @bindEvent 'use-q', 'q', 'prevent'
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
     # others
     @registerEvent 'pick', 'f', 'prevent'
@@ -78,6 +86,7 @@ class Player extends KeyBinding
 
   # switchQ(key: Slot): void
   switchQ: (key) ->
+<<<<<<< HEAD
 
     if key == Party.current
       Skill.useQ()
@@ -104,6 +113,28 @@ class Player extends KeyBinding
 
       unless $.now() - tsCheck >= limit then return
       Timer.remove token
+=======
+    $.press "alt + #{key}"
+    Party.switchTo key
+    SkillTimer.listQ[Party.current] = $.now()
+
+  # useE(isHolding: boolean = false): void
+  useE: (isHolding = false) ->
+
+    delay = 50
+    if isHolding then delay = 1e3
+
+    $.press 'e:down'
+    SkillTimer.record 'start'
+    Client.delay '~player', delay, ->
+      $.press 'e:up'
+      SkillTimer.record 'end'
+
+  # useQ(): void
+  useQ: ->
+    $.press 'q'
+    SkillTimer.listQ[Party.current] = $.now()
+>>>>>>> parent of e64cb9c (updated to v0.0.29)
 
 # execute
 Player = new Player()
